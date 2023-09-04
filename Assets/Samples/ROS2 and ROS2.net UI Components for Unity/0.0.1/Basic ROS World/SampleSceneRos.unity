@@ -860,6 +860,7 @@ GameObject:
   - component: {fileID: 923543095}
   - component: {fileID: 923543096}
   - component: {fileID: 923543097}
+  - component: {fileID: 923543098}
   m_Layer: 0
   m_Name: RosPublisher
   m_TagString: Untagged
@@ -949,6 +950,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HandKeypointsPublisherTopic: hand_keypoints
+--- !u!114 &923543098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923543090}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce44b01b371e4d418451e11b92ffbda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  "\xCCmagePublisherTopic": image_hololens
 --- !u!1 &1577749883
 GameObject:
   m_ObjectHideFlags: 0

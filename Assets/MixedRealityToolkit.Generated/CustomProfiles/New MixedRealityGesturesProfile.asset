@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: New MixedRealityGesturesProfile
   m_EditorClassIdentifier: 
   isCustomProfile: 1
-  manipulationGestures: 13
-  navigationGestures: 112
+  manipulationGestures: -1
+  navigationGestures: -1
   useRailsNavigation: 0
   railsNavigationGestures: 896
   windowsGestureAutoStart: 0
@@ -40,9 +40,9 @@ MonoBehaviour:
   - description: Tap
     gestureType: 4
     action:
-      id: 11
-      description: Scroll
-      axisConstraint: 4
+      id: 4
+      description: Pointer Pose
+      axisConstraint: 7
   - description: 
     gestureType: 0
     action:
