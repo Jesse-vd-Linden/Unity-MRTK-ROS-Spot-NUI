@@ -251,7 +251,7 @@ public class RosPublisherHandKeypoints : MonoBehaviour
         }
     }
 
-        // Update is called once per frame, if the function name is: Update()
+    // Update is called once per frame, if the function name is: Update()
     void Update()
     {
         handRight = HandJointUtils.FindHand(Handedness.Right);

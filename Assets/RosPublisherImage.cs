@@ -1,58 +1,66 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+using System.Linq;
+using UnityEngine.Windows.WebCam;
 using Unity.Robotics.ROSTCPConnector;
 using RosMessageTypes.Std;
-using RosMessageTypes.Geometry;
-using Microsoft.MixedReality.Toolkit;
-
-using Microsoft.MixedReality.Toolkit.Input;
-using Microsoft.MixedReality.Toolkit.Utilities;
 
 public class RosPublisherImage : MonoBehaviour
 {
+    WebCamTexture webcam;
+
     ROSConnection ros;
-    [SerializeField]
-    private string ÌmagePublisherTopic = "image_hololens";
+    public string topicName = "image_hololens";
 
-/*    UnityEngine.Windows.WebCam.PhotoCapture photoCaptureObject = null;
-    Texture2D targetTexture = null;*/
-
-    // Start is called before the first frame update
     void Start()
     {
-        // Ros for hand keypoints
+        // start the ROS connection
         ros = ROSConnection.GetOrCreateInstance();
-        ros.RegisterPublisher<Float32MultiArrayMsg>(ÌmagePublisherTopic);
-/*
-        Resolution cameraResolution = UnityEngine.Windows.WebCam.PhotoCapture.SupportedResolutions.OrderByDescending((res) => res.width * res.height).First();
-        targetTexture = new Texture2D(cameraResolution.width, cameraResolution.height);
+        ros.RegisterPublisher<Float32MultiArrayMsg>(topicName);
 
-        // Create a PhotoCapture object
-        UnityEngine.Windows.WebCam.PhotoCapture.CreateAsync(false, delegate (UnityEngine.Windows.WebCam.PhotoCapture captureObject) {
-            photoCaptureObject = captureObject;
-            UnityEngine.Windows.WebCam.CameraParameters cameraParameters = new UnityEngine.Windows.WebCam.CameraParameters();
-            cameraParameters.hologramOpacity = 0.0f;
-            cameraParameters.cameraResolutionWidth = cameraResolution.width;
-            cameraParameters.cameraResolutionHeight = cameraResolution.height;
-            cameraParameters.pixelFormat = UnityEngine.Windows.WebCam.CapturePixelFormat.BGRA32;
+        webcam = new WebCamTexture();
+        webcam.Play();
+        Debug.LogFormat("webcam {0} {1} x {2}", webcam.deviceName, webcam.width, webcam.height);
 
-            // Activate the camera
-            photoCaptureObject.StartPhotoModeAsync(cameraParameters, delegate (UnityEngine.Windows.WebCam.PhotoCapture.PhotoCaptureResult result) {
-                // Take a picture
-                photoCaptureObject.TakePhotoAsync(OnCapturedPhotoToMemory);
-            });
-        });*/
+
     }
 
-    // Update is called once per frame, if the function name is: Update()
-    void Update()
+    void NoUpdate()
     {
+        Texture2D webcamImage = new Texture2D(webcam.width, webcam.height);
+        webcamImage.SetPixels(webcam.GetPixels());
+        webcamImage.Apply();
 
-        /*Float32MultiArrayMsg Points = new Float32MultiArrayMsg()
+        /*float[] imageVar = new float[] { webcamImage. };
+
+        Float32MultiArrayMsg Points = new Float32MultiArrayMsg()
         {
-            data = imageArray
+            data = imageVar
         };
-        ros.Publish(ÌmagePublisherTopic, Points);*/
+
+        ros.Publish(topicName, Points);*/
     }
+    
+    Texture2D TakePhoto()
+    {
+        Texture2D webcamImage = new Texture2D(webcam.width, webcam.height);
+        webcamImage.SetPixels(webcam.GetPixels());
+        webcamImage.Apply();
+
+        return webcamImage;
+    }
+
+    public void TakePhotoPreview(Renderer preview)
+    {
+        Texture2D image = TakePhoto();
+        preview.material.mainTexture = image;
+
+        float aspectRatio = (float)image.width / (float)image.height;
+        Vector3 scale = preview.transform.localScale;
+        scale.x = scale.y * aspectRatio;
+        preview.transform.localScale = scale;
+    }
+
+
+
 }
