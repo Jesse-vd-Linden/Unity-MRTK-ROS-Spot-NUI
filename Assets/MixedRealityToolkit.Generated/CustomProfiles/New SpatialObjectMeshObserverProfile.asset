@@ -27,4 +27,4 @@ MonoBehaviour:
   occlusionMaterial: {fileID: 2100000, guid: a809c7ea182b699409443d46d5b42435, type: 2}
   physicsMaterial: {fileID: 0}
   runtimeSpatialMeshPrefab: {fileID: 0}
-  spatialMeshObject: {fileID: 100000, guid: 2d029f2a1321676428ce89872882c605, type: 3}
+  spatialMeshObject: {fileID: 1000011882893550, guid: 48530aab98abaa541acf2cf3f3f06d20, type: 3}

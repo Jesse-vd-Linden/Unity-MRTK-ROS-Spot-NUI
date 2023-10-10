@@ -10,6 +10,7 @@ EditorBuildSettings:
       World/SampleSceneRos.unity
     guid: 4ce582c3ecd4f3049bb398a9b3a3e83e
   m_configObjects:
+    Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 42b5137f95cf6b8488f4be3b8ee14ebb, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: c97c8137655b6e54fb96be6eba0594f5, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: d398592b253eac440bb3f44f9bd222d3, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 8a6b1bd4382cf6c419732db7b15c253e, type: 2}
