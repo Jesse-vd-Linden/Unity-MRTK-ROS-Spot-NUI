@@ -28,12 +28,11 @@ public class RosPublisherDeicticGaze : MonoBehaviour
 
     public float LengthPerson = 1.85f; // Length of person to determine the point of contact to the ground
 
+    Vector3 GazePoint;
     public GameObject gameObjectToMove;
 
+    public TextMeshProUGUI PositionLabel;
     public TextMeshProUGUI CountDownTimerCalibration;
-
-    Vector3 CalibrationOrigin = new Vector3(0,0,0);
-    Vector3 CalibrationDirection = new Vector3(0, 0, 0);
 
     void Start()
     {
@@ -54,15 +53,18 @@ public class RosPublisherDeicticGaze : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        Vector3 gazePoint = CalculatePlanarGazeLocation();
-        gameObjectToMove.transform.position = gazePoint;
+        Vector3 PersonLocation = CoreServices.InputSystem.GazeProvider.GazeOrigin;
+        Vector3 GazeDirectionPerson = CoreServices.InputSystem.GazeProvider.GazeDirection;
+        GazePoint = CalculatePlanarGazeLocation(PersonLocation, GazeDirectionPerson);
+
+        gameObjectToMove.transform.position = GazePoint;
     }
 
     // Update is called once per frame
     public void CalibratePositionAndDirection()
     {
         // timer and looking at target instruction
-        for (int i = 5; i > 0; i--)
+        for (int i = 3; i > 0; i--)
         {
             Thread.Sleep(1000);
             string timeCountDown = string.Format("00:{0:F2}", i);
@@ -70,22 +72,16 @@ public class RosPublisherDeicticGaze : MonoBehaviour
         }
         CountDownTimerCalibration.text = new string("");
 
-        CalibrationOrigin = CoreServices.InputSystem.GazeProvider.GazeOrigin;
-
-        Vector3 CurrentGazeDirection = CoreServices.InputSystem.GazeProvider.GazeDirection;
-        float xDirection = CurrentGazeDirection[0];
-        float yDirection = CurrentGazeDirection[1];
-        float zDirection = -1 * (1 - CurrentGazeDirection[2]);
-        CalibrationDirection = new Vector3(xDirection, yDirection, zDirection);
-
-
+        Vector3 ZeroOrigin = new Vector3(0,0,0);
+        Vector3 ZeroDirection = new Vector3(0,0,1);
+        /*CoreServices.InputSystem.GazeProvider.GazeOrigin = ZeroOrigin;
+        CoreServices.InputSystem.GazeProvider.GazeDirection = ZeroDirection;
+        CoreServices.InputSystem.GazeProvider.OverrideHeadGaze(ZeroOrigin, ZeroDirection);*/
     }
 
-    Vector3 CalculatePlanarGazeLocation()
+    Vector3 CalculatePlanarGazeLocation(Vector3 PersonLocation, Vector3 GazeDirection)
     {
-        Vector3 PersonLocation = CoreServices.InputSystem.GazeProvider.GazeOrigin - CalibrationOrigin;
         PersonLocation[1] = PersonLocation[1] + LengthPerson - 0.05f;
-        Vector3 GazeDirection = CoreServices.InputSystem.GazeProvider.GazeDirection - CalibrationDirection;
 
         float VectorLengthToGround = -1 * (PersonLocation[1] / GazeDirection[1]);
         double subAnswer = Math.Pow(GazeDirection[0], 2.0f) + Math.Pow(GazeDirection[2], 2.0f);
@@ -109,26 +105,24 @@ public class RosPublisherDeicticGaze : MonoBehaviour
             z = PersonLocation[2] + VectorLengthToGround * GazeDirection[2];
         }
 
-        Vector3 gazePoint = new Vector3(x, -LengthPerson, z);
+        Vector3 point = new Vector3(x, -LengthPerson, z);
 
-        return gazePoint;
-
+        return point;
     }
 
     // Update is called once per frame
     public void SendPickUp()
     {
         Vector3 PersonLocation = CoreServices.InputSystem.GazeProvider.GazeOrigin;
-        Vector3 GazeLocation = CoreServices.InputSystem.GazeProvider.GazeDirection;
 
         float[] message = new float[6];
         message[0] = PersonLocation[2];
         message[1] = -1 * PersonLocation[0];
         message[2] = PersonLocation[1];
 
-        message[3] = GazeLocation[2];
-        message[4] = -1 * GazeLocation[0];
-        message[5] = GazeLocation[1];
+        message[3] = GazePoint[2];
+        message[4] = -1 * GazePoint[0];
+        message[5] = GazePoint[1];
 
         Float32MultiArrayMsg Points = new Float32MultiArrayMsg()
         {
@@ -142,16 +136,15 @@ public class RosPublisherDeicticGaze : MonoBehaviour
     public void SendDropOff()
     {
         Vector3 PersonLocation = CoreServices.InputSystem.GazeProvider.GazeOrigin;
-        Vector3 GazeLocation = CoreServices.InputSystem.GazeProvider.GazeDirection;
 
         float[] message = new float[6];
         message[0] = PersonLocation[2];
         message[1] = -1 * PersonLocation[0];
         message[2] = PersonLocation[1];
 
-        message[3] = GazeLocation[2];
-        message[4] = -1 * GazeLocation[0];
-        message[5] = GazeLocation[1];
+        message[3] = GazePoint[2];
+        message[4] = -1 * GazePoint[0];
+        message[5] = GazePoint[1];
 
         Float32MultiArrayMsg Points = new Float32MultiArrayMsg()
         {
@@ -165,27 +158,15 @@ public class RosPublisherDeicticGaze : MonoBehaviour
     public void SendWalk()
     {
         Vector3 PersonLocation = CoreServices.InputSystem.GazeProvider.GazeOrigin;
-        Vector3 GazeDirection = CoreServices.InputSystem.GazeProvider.GazeDirection;
-
-        // Raycasting to find out what the user is looking at
-        RaycastHit hitInfo;
-        if (Physics.Raycast(PersonLocation, GazeDirection, out hitInfo))
-        {
-            Vector3 hitPoint = hitInfo.point;
-            // Now hitPoint contains the 3D location where the user is looking
-        }
-
-        Vector3 gazePoint = PersonLocation + (GazeDirection * fixedDistance);
-
 
         float[] message = new float[6];
         message[0] = PersonLocation[2];
         message[1] = -1 * PersonLocation[0];
         message[2] = PersonLocation[1];
 
-        message[3] = gazePoint[2];
-        message[4] = -1 * gazePoint[0];
-        message[5] = gazePoint[1];
+        message[3] = GazePoint[2];
+        message[4] = -1 * GazePoint[0];
+        message[5] = GazePoint[1];
 
         Float32MultiArrayMsg Points = new Float32MultiArrayMsg()
         {

@@ -165,8 +165,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 867233659}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -314,7 +313,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -330,7 +329,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -346,7 +345,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -362,7 +361,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -378,7 +377,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -394,7 +393,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -410,7 +409,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -426,7 +425,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -442,7 +441,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -458,7 +457,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -474,7 +473,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -490,7 +489,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -506,7 +505,7 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 2082272712}
           m_TargetAssemblyTypeName: RosPublisherAction, Assembly-CSharp
           m_MethodName: SendMessageAction
           m_Mode: 5
@@ -522,41 +521,9 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 917127622}
           m_TargetAssemblyTypeName: RosPublisherHandPose, Assembly-CSharp
           m_MethodName: toggle_direct_control
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: stand_up_low
-            m_BoolArgument: 0
-          m_CallState: 2
-  - keyword: Show Gaze Direction
-    response:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: RosPublisherGazePosition, Assembly-CSharp
-          m_MethodName: Gaze3DLocation
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: stand_up_low
-            m_BoolArgument: 0
-          m_CallState: 2
-  - keyword: Send Hand Pose
-    response:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: RosPublisherHandKeypoints, Assembly-CSharp
-          m_MethodName: SendHandPose
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1570,11 +1537,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d82e2f09994ad2f4fb43359bfb977f64, type: 3}
---- !u!4 &867233659 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2722896806718886372, guid: 5d0e0114754510146822f492f811495b, type: 3}
-  m_PrefabInstance: {fileID: 1985308836}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &917127616
 GameObject:
   m_ObjectHideFlags: 0
@@ -1674,6 +1636,7 @@ MonoBehaviour:
   fixedDistance: 3
   LengthPerson: 1.85
   gameObjectToMove: {fileID: 2062584978}
+  PositionLabel: {fileID: 1331278647}
   CountDownTimerCalibration: {fileID: 1331278647}
 --- !u!1 &1172322570
 GameObject:
@@ -1931,115 +1894,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1985308836
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 40919616}
-    m_Modifications:
-    - target: {fileID: 831020804167472654, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 831020804167472752, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_textAlignment
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 831020804167472752, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_VerticalAlignment
-      value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 831020804167472752, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_HorizontalAlignment
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2103332432718950651, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: useGazeActivation
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896806718886372, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896806718886372, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896806718886372, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896806718886372, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896806718886372, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896806718886372, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896806718886372, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896806718886372, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896806718886372, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896806718886372, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896806718886372, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896806718886375, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_Name
-      value: ROSHandMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896807957518648, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_textAlignment
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896807957518648, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_VerticalAlignment
-      value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896807957518648, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_HorizontalAlignment
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896807957518662, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896808009479962, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_textAlignment
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896808009479962, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_VerticalAlignment
-      value: 512
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896808009479962, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_HorizontalAlignment
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2722896808009480036, guid: 5d0e0114754510146822f492f811495b, type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5d0e0114754510146822f492f811495b, type: 3}
 --- !u!1 &2062584978
 GameObject:
   m_ObjectHideFlags: 0
@@ -2146,7 +2000,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2062584978}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11252a67615225b49b050219a0f9ac9a, type: 3}
   m_Name: 
