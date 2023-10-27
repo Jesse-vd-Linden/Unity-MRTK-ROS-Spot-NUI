@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Samples/ROS2 and ROS2.net UI Components for Unity/0.0.1/Basic ROS
       World/SampleSceneRos.unity
     guid: 4ce582c3ecd4f3049bb398a9b3a3e83e
+  - enabled: 0
+    path: Assets/MixedReality.AzureObjectAnchors/Scenes/AOASampleScene.unity
+    guid: 805128889349a464895fc1426b82bf0a
   m_configObjects:
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 42b5137f95cf6b8488f4be3b8ee14ebb, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: c97c8137655b6e54fb96be6eba0594f5, type: 2}
