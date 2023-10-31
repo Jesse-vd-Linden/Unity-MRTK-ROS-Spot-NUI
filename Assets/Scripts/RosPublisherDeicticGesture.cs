@@ -13,7 +13,7 @@ using Unity.Robotics.ROSTCPConnector;
 using RosMessageTypes.Std;
 using UnityEngine.InputSystem;
 
-public class RosPublisherDeicticGaze : MonoBehaviour
+public class RosPublisherDeicticGesture: MonoBehaviour
 {
     ROSConnection ros;
     Vector3 hitPoint;
@@ -38,15 +38,15 @@ public class RosPublisherDeicticGaze : MonoBehaviour
     public TextMeshPro PositionLabel2;
     public TextMeshPro CountDownTimerCalibration;
 
+
+    public Handedness selectedHand = Handedness.Right;
+    Vector3 endPoint;
+
     void Start()
     {
         // start the ROS connection
         ros = ROSConnection.GetOrCreateInstance();
         ros.RegisterPublisher<Float32MultiArrayMsg>(topicName);
-
-        Vector3 PersonLocation = CoreServices.InputSystem.GazeProvider.GazeOrigin;
-
-        Debug.Log("Initial position HoloLens:" + PersonLocation.ToString());
 
         CoreServices.DiagnosticsSystem.ShowProfiler = false;
     }
@@ -115,6 +115,14 @@ public class RosPublisherDeicticGaze : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
+        bool isPointerFound = PointerUtils.TryGetHandRayEndPoint(selectedHand, out endPoint);
+
+        if (isPointerFound)
+        {
+            // Do something with the endpoint, like displaying or logging it
+            Debug.Log("Hand Ray Endpoint: " + endPoint.ToString());
+        }
+
         Vector3 PersonLocation = CoreServices.InputSystem.GazeProvider.GazeOrigin;
         Vector3 GazeDirectionPerson = CoreServices.InputSystem.GazeProvider.GazeDirection;
         Vector3 GazePointOriginal = CalculatePlanarGazeLocation(PersonLocation, GazeDirectionPerson);
@@ -126,8 +134,8 @@ public class RosPublisherDeicticGaze : MonoBehaviour
 
         GazePoint = CalculatePlanarGazeLocation(PersonLocationCalibrated, GazeDirectionVectorCalibrated);
 
-        PositionLabel.text = string.Format("Position: ({0:F2}, {1:F2}, {2:F2})", GazePoint.x, GazePoint.y, GazePoint.z);
-        PositionLabel2.text = string.Format("Position: ({0:F2}, {1:F2}, {2:F2})", GazePoint.x, GazePoint.y, GazePoint.z);
+        //PositionLabel.text = string.Format("Position: ({0:F2}, {1:F2}, {2:F2})", GazePoint.x, GazePoint.y, GazePoint.z);
+        //PositionLabel2.text = string.Format("Position: ({0:F2}, {1:F2}, {2:F2})", GazePoint.x, GazePoint.y, GazePoint.z);
 
         gameObjectToMove.transform.position = ScaleVector3(GazePointOriginal, ScaleFactor);
     }

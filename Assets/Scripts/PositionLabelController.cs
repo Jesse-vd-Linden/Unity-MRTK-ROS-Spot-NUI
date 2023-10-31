@@ -4,7 +4,7 @@ using TMPro;
 public class PositionLabelController : MonoBehaviour
 {
     public GameObject targetObject;  // Drag the object you want to track in the inspector
-    public TextMeshProUGUI positionLabel;  // Drag the TextMeshPro object you created earlier in the inspector
+    public TextMeshPro positionLabel;  // Drag the TextMeshPro object you created earlier in the inspector
 
     void Start()
     {
