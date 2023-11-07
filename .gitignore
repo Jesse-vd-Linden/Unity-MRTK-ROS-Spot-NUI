@@ -72,5 +72,8 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 App
+App_*
+App2
+App2_*
 App_AOA
 HolographicRemote
