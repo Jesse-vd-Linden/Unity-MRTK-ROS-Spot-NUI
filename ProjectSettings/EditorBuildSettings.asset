@@ -6,8 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Samples/ROS2 and ROS2.net UI Components for Unity/0.0.1/Basic ROS
-      World/SampleSceneRos.unity
+    path: Assets/Scenes/SampleSceneRos.unity
     guid: 4ce582c3ecd4f3049bb398a9b3a3e83e
   - enabled: 0
     path: Assets/MixedReality.AzureObjectAnchors/Scenes/AOASampleScene.unity

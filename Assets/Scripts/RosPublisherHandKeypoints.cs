@@ -22,7 +22,8 @@ public class RosPublisherHandKeypoints : MonoBehaviour
     private Quaternion handRotation; 
     public TMP_Text LoggingPanel;
     public TMP_Text ResPanel;
-    string Logging = "";
+    private string Logging = "";
+    private string currentDateTime;
     private float collectionCountdown;
     private float timeBeforeCollect = 8;
     public float collectionDuration = 15;
@@ -46,6 +47,7 @@ public class RosPublisherHandKeypoints : MonoBehaviour
     void Start()
     {
         // Ros for hand keypoints
+        currentDateTime = DateTime.Now.ToString("yyyy_MM_dd_HHmm");
         ros = ROSConnection.GetOrCreateInstance();
         ros.RegisterPublisher<Float32MultiArrayMsg>(HandKeypointsPublisherTopic);
         ros.Subscribe<StringMsg>("/chatter", DisplayRecognizedGestures);
@@ -162,7 +164,6 @@ public class RosPublisherHandKeypoints : MonoBehaviour
     }
     private void WriteJointsToFile()
     {
-        string currentDateTime = DateTime.Now.ToString("yyyy_MM_dd_HHmm");
         string filename = currentDateTime + ".txt";
         string path = Path.Combine(Application.persistentDataPath, filename);
         using (StreamWriter writer = new StreamWriter(path, true))
