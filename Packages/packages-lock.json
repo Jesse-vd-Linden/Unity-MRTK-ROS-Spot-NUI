@@ -97,6 +97,12 @@
       "source": "local-tarball",
       "dependencies": {}
     },
+    "com.microsoft.windows.mixedreality.dotnetwinrt": {
+      "version": "file:MixedReality/com.microsoft.windows.mixedreality.dotnetwinrt-0.5.2009.tgz",
+      "depth": 0,
+      "source": "local-tarball",
+      "dependencies": {}
+    },
     "com.unity.barracuda": {
       "version": "3.0.0",
       "depth": 0,

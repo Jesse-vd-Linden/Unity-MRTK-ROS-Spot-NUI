@@ -18,12 +18,24 @@ public class RosPublisherDataCollection : MonoBehaviour
     public float updateInterval = 0.05f; // Interval in seconds at which the update function should run
     private float nextUpdateTime = 0f;  // Keeps track of when the next update should occur
 
+    private GameObject gazeIndicator;
+
+    private Camera cam;
 
     // Start is called before the first frame update
     void Start()
     {
+        cam = Camera.main;
+        gazeIndicator = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        gazeIndicator.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+
         ros = ROSConnection.GetOrCreateInstance();
         ros.RegisterPublisher<Float32MultiArrayMsg>(DataCollectionPublisherTopic);
+
+        var IsEyeTracking = CoreServices.InputSystem.EyeGazeProvider.IsEyeTrackingEnabled;
+        var IsEyeValid = CoreServices.InputSystem.EyeGazeProvider.IsEyeTrackingEnabled;
+        Debug.Log($"IsEyeTracking: {IsEyeTracking}");
+        Debug.Log($"IsEyeValid: {IsEyeValid}");
     }
 
     // Update is called once per frame
@@ -33,6 +45,10 @@ public class RosPublisherDataCollection : MonoBehaviour
         {
             Vector3 PersonLocation = CoreServices.InputSystem.GazeProvider.GazeOrigin;
             Vector3 GazeDirectionPerson = CoreServices.InputSystem.GazeProvider.GazeDirection;
+            Vector3 EyeGazePosition = CoreServices.InputSystem.EyeGazeProvider.GazeDirection;
+            // Vector3 ScreenPos = cam.WorldToScreenPoint(GazeDirectionPerson);
+
+            gazeIndicator.transform.position = EyeGazePosition;
 
             float[] points = new float[6];
 
