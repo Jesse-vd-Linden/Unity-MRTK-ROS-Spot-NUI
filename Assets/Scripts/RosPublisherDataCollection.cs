@@ -31,6 +31,8 @@ public class RosPublisherDataCollection : MonoBehaviour
     {
         if (Time.time >= nextUpdateTime)
         {
+            Debug.Log("User gaze is currently over game object: " + CoreServices.InputSystem.GazeProvider.GazeTarget);
+                
             Vector3 PersonLocation = CoreServices.InputSystem.GazeProvider.GazeOrigin;
             Vector3 GazeDirectionPerson = CoreServices.InputSystem.GazeProvider.GazeDirection;
 
