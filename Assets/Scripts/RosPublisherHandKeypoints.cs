@@ -22,12 +22,12 @@ public class RosPublisherHandKeypoints : MonoBehaviour
     private Quaternion handRotation; 
     public TMP_Text LoggingPanel;
     public TMP_Text ResPanel;
-    string Logging = "";
+    private string Logging = "";
+    private string currentDateTime;
     private float collectionCountdown;
-    private float timeBeforeCollect = 8;
+    private float timeBeforeCollect = 4;
     public float collectionDuration = 15;
-    private bool isCollectionActive = true; 
-
+    private bool isCollectionActive; 
     ROSConnection ros;
 
     [SerializeField]
@@ -49,7 +49,19 @@ public class RosPublisherHandKeypoints : MonoBehaviour
         ros = ROSConnection.GetOrCreateInstance();
         ros.RegisterPublisher<Float32MultiArrayMsg>(HandKeypointsPublisherTopic);
         ros.Subscribe<StringMsg>("/chatter", DisplayRecognizedGestures);
+    }
+
+    void OnEnable()
+    {
+        isCollectionActive = true;
+        currentDateTime = DateTime.Now.ToString("yyyy_MM_dd_HHmm");
         collectionCountdown = 0;
+    }
+
+    void OnDisable()
+    {
+        ResPanel.text = "";
+        LoggingPanel.text = "";
     }
 
     void DisplayRecognizedGestures(StringMsg gestureMsg)
@@ -155,14 +167,13 @@ public class RosPublisherHandKeypoints : MonoBehaviour
             {
                 WriteJointsToFile();
             }
-            Logging += " ROS message published \n";
+            // Logging += " ROS message published \n";
             LoggingPanel.text = Logging;
         }
 
     }
     private void WriteJointsToFile()
     {
-        string currentDateTime = DateTime.Now.ToString("yyyy_MM_dd_HHmm");
         string filename = currentDateTime + ".txt";
         string path = Path.Combine(Application.persistentDataPath, filename);
         using (StreamWriter writer = new StreamWriter(path, true))
