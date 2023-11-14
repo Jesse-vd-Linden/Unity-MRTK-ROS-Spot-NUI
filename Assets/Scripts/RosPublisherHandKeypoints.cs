@@ -69,8 +69,9 @@ public class RosPublisherHandKeypoints : MonoBehaviour
     void DisplayRecognizedGestures(StringMsg gestureMsg)
     {
         string RecognizedGesture = gestureMsg.ToString().Substring(18);
-        if (SpeechTipPrefab != null && speechConfirmationTooltipPrefabInstance == null)
-            // && !eventData.Command.Keyword.Equals("select"c, StringComparison.CurrentCultureIgnoreCase))
+        if (SpeechTipPrefab != null && speechConfirmationTooltipPrefabInstance == null
+            && !RecognizedGesture.Equals("NoGesture")
+            )
         {
             speechConfirmationTooltipPrefabInstance = Instantiate(SpeechTipPrefab);
             speechConfirmationTooltipPrefabInstance.SetText(RecognizedGesture);

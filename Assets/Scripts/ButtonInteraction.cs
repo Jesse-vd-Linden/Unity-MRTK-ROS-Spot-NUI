@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using Microsoft.MixedReality.Toolkit.UI;
 
-// #if ENABLE_WINMD_SUPPORT && UNITY_WSA
-// using Windows.Media.Capture;
-// using Windows.Storage;
-// #endif
+#if ENABLE_WINMD_SUPPORT && UNITY_WSA
+using Windows.Media.Capture;
+using Windows.Storage;
+#endif
 
 public class ButtonInteraction : MonoBehaviour
 {
@@ -45,9 +45,9 @@ public class ButtonInteraction : MonoBehaviour
     {
         LoggingPanel.text = "Click on Button";
         Debug.Log("Exit Pressed!");
-        // #if UNITY_EDITOR
-        // UnityEditor.EditorApplication.isPlaying = false;
-        // #endif
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
         Application.Quit();
     }
 
