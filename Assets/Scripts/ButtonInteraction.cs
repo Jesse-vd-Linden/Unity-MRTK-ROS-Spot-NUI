@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using Microsoft.MixedReality.Toolkit.UI;
 
-#if ENABLE_WINMD_SUPPORT && UNITY_WSA
-using Microsoft.Windows.Media.Capture;
-using Microsoft.Windows.Storage;
-#endif
+// #if ENABLE_WINMD_SUPPORT && UNITY_WSA
+// using Windows.Media.Capture;
+// using Windows.Storage;
+// #endif
 
 public class ButtonInteraction : MonoBehaviour
 {
@@ -19,6 +19,8 @@ public class ButtonInteraction : MonoBehaviour
     public GameObject GestureCommand;
     private GameObject VoiceSwitch;
     private GameObject GestureSwitch;
+    private GameObject DebugPanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,7 @@ public class ButtonInteraction : MonoBehaviour
         Canvas = this.gameObject;
         #if ENABLE_WINMD_SUPPORT
         Debug.Log("Windows Runtime Support enabled");
+        LoggingPanel.text = "Windows Runtime Support enabled";
         // Put calls to your custom .winmd API here
         #endif
     }
@@ -42,21 +45,25 @@ public class ButtonInteraction : MonoBehaviour
     {
         LoggingPanel.text = "Click on Button";
         Debug.Log("Exit Pressed!");
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+        // #if UNITY_EDITOR
+        // UnityEditor.EditorApplication.isPlaying = false;
+        // #endif
         Application.Quit();
     }
 
     public void ToggleVoice()
     {
+    GameObject SpeechInstructions = Canvas.transform.Find("SpeechInstructions").gameObject;
+
         if (!VoiceCommand.activeSelf)
         {
+            SpeechInstructions.SetActive(true);
             VoiceCommand.SetActive(true);
             Debug.Log("Voice on!");
         }
         else
         {
+            SpeechInstructions.SetActive(false);
             VoiceCommand.SetActive(false);
             Debug.Log("Voice off!");
         }
@@ -64,8 +71,10 @@ public class ButtonInteraction : MonoBehaviour
 
     public void ToggleGesture()
     {
+        GameObject GestureInstructions = Canvas.transform.Find("GestureInstructions").gameObject;
         if (!GestureCommand.activeSelf)
         {
+            GestureInstructions.SetActive(true);
             GestureCommand.SetActive(true);
             GestureCommand.GetComponent<RosPublisherHandKeypoints>().enabled = true;
             Debug.Log("Gesture on!");
@@ -74,20 +83,44 @@ public class ButtonInteraction : MonoBehaviour
         {
             GestureCommand.GetComponent<RosPublisherHandKeypoints>().enabled = false;
             GestureCommand.SetActive(false);
+            GestureInstructions.SetActive(false);
             Debug.Log("Gesture off!");
+        }
+    }
+
+    public void ToggleDebug()
+    {
+        GameObject InfoPanel = Canvas.transform.Find("InfoPanel").gameObject;
+        if (!InfoPanel.activeSelf)
+        {
+            InfoPanel.SetActive(true);
+            Debug.Log("Debug on!");
+        }
+        else
+        {
+            InfoPanel.SetActive(false);
+            Debug.Log("Debug off!");
         }
     }
 
     public void ToggleTablet()
     {
+        if (VoiceCommand.activeSelf)
+        {
+            ToggleGesture();
+        }
+        if (VoiceCommand.activeSelf)
+        {
+            ToggleVoice();
+        }
         VoiceSwitch = Canvas.transform.Find("VoiceSwitch").gameObject;
         Interactable myInteractable = VoiceSwitch.GetComponent<Interactable>();
         myInteractable.IsToggled = false;
         GestureSwitch = Canvas.transform.Find("GestureSwitch").gameObject;
         myInteractable = GestureSwitch.GetComponent<Interactable>();
         myInteractable.IsToggled = false;
-        VoiceCommand.SetActive(false);
-        GestureCommand.SetActive(false);
+        // VoiceCommand.SetActive(false);
+        // GestureCommand.SetActive(false);
         Debug.Log("Tablet on!");
     }
     public void StartButton()
@@ -98,10 +131,10 @@ public class ButtonInteraction : MonoBehaviour
 
     public void VideoRecording()
     {
-        #if ENABLE_WINMD_SUPPORT
-        CameraCaptureUI captureUI = new CameraCaptureUI();
-        captureUI.VideoSettings.Format = CameraCaptureUIVideoFormat.Mp4;
-        StorageFile videoFile = await captureUI.CaptureFileAsync(CameraCaptureUIMode.Video);
+        // #if ENABLE_WINMD_SUPPORT
+        // CameraCaptureUI captureUI = new CameraCaptureUI();
+        // captureUI.VideoSettings.Format = CameraCaptureUIVideoFormat.Mp4;
+        // StorageFile videoFile = await captureUI.CaptureFileAsync(CameraCaptureUIMode.Video);
 
         // StorageFolder destinationFolder = 
         //     await ApplicationData.Current.LocalFolder.CreateFolderAsync("ProfilePhotoFolder", 
@@ -110,12 +143,12 @@ public class ButtonInteraction : MonoBehaviour
         // await videoFile.CopyAsync(destinationFolder, "ProfilePhoto.jpg", NameCollisionOption.ReplaceExisting);
         // await videoFile.DeleteAsync();
 
-        if (videoFile == null)
-        {
-            // User cancelled photo capture
-            return;
-        }
-        #endif
+        // if (videoFile == null)
+        // {
+        //     // User cancelled photo capture
+        //     return;
+        // }
+        // #endif
     }
 
     public void Reset()

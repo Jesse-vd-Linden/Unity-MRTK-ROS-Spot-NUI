@@ -8,7 +8,7 @@ using Unity.Robotics.ROSTCPConnector;
 using RosMessageTypes.Std;
 using RosMessageTypes.Geometry;
 using Microsoft.MixedReality.Toolkit;
-
+using Microsoft.MixedReality.Toolkit.UI;
 using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.Utilities;
 using TMPro;
@@ -23,6 +23,8 @@ public class RosPublisherHandKeypoints : MonoBehaviour
     public TMP_Text LoggingPanel;
     public TMP_Text ResPanel;
     private string Logging = "";
+    public SpeechConfirmationTooltip SpeechTipPrefab;
+    private SpeechConfirmationTooltip speechConfirmationTooltipPrefabInstance = null;
     private string currentDateTime;
     private float collectionCountdown;
     private float timeBeforeCollect = 4;
@@ -66,7 +68,15 @@ public class RosPublisherHandKeypoints : MonoBehaviour
 
     void DisplayRecognizedGestures(StringMsg gestureMsg)
     {
-        ResPanel.text = "Gesture: " + gestureMsg.ToString();
+        string RecognizedGesture = gestureMsg.ToString().Substring(18);
+        if (SpeechTipPrefab != null && speechConfirmationTooltipPrefabInstance == null)
+            // && !eventData.Command.Keyword.Equals("select"c, StringComparison.CurrentCultureIgnoreCase))
+        {
+            speechConfirmationTooltipPrefabInstance = Instantiate(SpeechTipPrefab);
+            speechConfirmationTooltipPrefabInstance.SetText(RecognizedGesture);
+            speechConfirmationTooltipPrefabInstance.TriggerConfirmedAnimation();
+        }
+        ResPanel.text = "Gesture: " + RecognizedGesture;
     }
 
     // Update is called once per frame, if the function name is: Update()
