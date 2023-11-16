@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 using Microsoft.MixedReality.Toolkit.UI;
+using System;
+using System.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 #if ENABLE_WINMD_SUPPORT && UNITY_WSA
 using Windows.Media.Capture;
@@ -13,13 +13,13 @@ using Windows.Storage;
 public class ButtonInteraction : MonoBehaviour
 {
     private GameObject Canvas;
+    public GameObject VoiceDebug;
     public TMP_Text LoggingPanel;
     public GameObject DataCollection;
     public GameObject VoiceCommand;
     public GameObject GestureCommand;
     private GameObject VoiceSwitch;
     private GameObject GestureSwitch;
-    private GameObject DebugPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -28,11 +28,6 @@ public class ButtonInteraction : MonoBehaviour
         GestureCommand.SetActive(false);
         DataCollection.SetActive(false);
         Canvas = this.gameObject;
-        #if ENABLE_WINMD_SUPPORT
-        Debug.Log("Windows Runtime Support enabled");
-        LoggingPanel.text = "Windows Runtime Support enabled";
-        // Put calls to your custom .winmd API here
-        #endif
     }
 
     // Update is called once per frame
@@ -94,11 +89,13 @@ public class ButtonInteraction : MonoBehaviour
         if (!InfoPanel.activeSelf)
         {
             InfoPanel.SetActive(true);
+            VoiceDebug.SetActive(true);
             Debug.Log("Debug on!");
         }
         else
         {
             InfoPanel.SetActive(false);
+            VoiceDebug.SetActive(false);
             Debug.Log("Debug off!");
         }
     }
@@ -123,32 +120,68 @@ public class ButtonInteraction : MonoBehaviour
         // GestureCommand.SetActive(false);
         Debug.Log("Tablet on!");
     }
+    public void ToggleTraining()
+    {
+        if (VoiceCommand.activeSelf)
+        {
+            ToggleGesture();
+        }
+        if (VoiceCommand.activeSelf)
+        {
+            ToggleVoice();
+        }
+        VoiceSwitch = Canvas.transform.Find("VoiceSwitch").gameObject;
+        Interactable myInteractable = VoiceSwitch.GetComponent<Interactable>();
+        myInteractable.IsToggled = false;
+        GestureSwitch = Canvas.transform.Find("GestureSwitch").gameObject;
+        myInteractable = GestureSwitch.GetComponent<Interactable>();
+        myInteractable.IsToggled = false;
+        // VoiceCommand.SetActive(false);
+        // GestureCommand.SetActive(false);
+        Debug.Log("Tablet on!");
+    }
+
+    // public async void StartButton()
     public void StartButton()
     {
         DataCollection.SetActive(true);
         Debug.Log("Data collection on!");
+        //try
+        //{
+        //    LoggingPanel.text = "try";
+        //    await VideoRecordingAsync();
+        //}
+        //catch (Exception ex)
+        //{
+        //    LoggingPanel.text = "catch";
+        //    Debug.LogException(ex);
+        //    LoggingPanel.text = ex.ToString();
+        //}
     }
 
-    public void VideoRecording()
+    public async Task VideoRecordingAsync()
     {
-        // #if ENABLE_WINMD_SUPPORT
-        // CameraCaptureUI captureUI = new CameraCaptureUI();
-        // captureUI.VideoSettings.Format = CameraCaptureUIVideoFormat.Mp4;
-        // StorageFile videoFile = await captureUI.CaptureFileAsync(CameraCaptureUIMode.Video);
+#if ENABLE_WINMD_SUPPORT
+        CameraCaptureUI captureUI = new CameraCaptureUI();
+        LoggingPanel.text = "camera created";
+        captureUI.VideoSettings.Format = CameraCaptureUIVideoFormat.Mp4;
+        captureUI.VideoSettings.AllowTrimming = true;
+        StorageFile videoFile = await captureUI.CaptureFileAsync(CameraCaptureUIMode.Video);
+        LoggingPanel.text = "camera started";
 
-        // StorageFolder destinationFolder = 
-        //     await ApplicationData.Current.LocalFolder.CreateFolderAsync("ProfilePhotoFolder", 
-        //         CreationCollisionOption.OpenIfExists);
+        if (videoFile == null)
+        {
+            // User cancelled photo capture
+            LoggingPanel.text = "camera stopped";
+            return;
+        }
+        StorageFolder destinationFolder =
+            await ApplicationData.Current.LocalFolder.CreateFolderAsync("ProfileVideoFolder",
+                CreationCollisionOption.OpenIfExists);
 
-        // await videoFile.CopyAsync(destinationFolder, "ProfilePhoto.jpg", NameCollisionOption.ReplaceExisting);
-        // await videoFile.DeleteAsync();
-
-        // if (videoFile == null)
-        // {
-        //     // User cancelled photo capture
-        //     return;
-        // }
-        // #endif
+        await videoFile.CopyAsync(destinationFolder, "VideoCapture.mp4", NameCollisionOption.ReplaceExisting);
+        await videoFile.DeleteAsync();
+#endif
     }
 
     public void Reset()

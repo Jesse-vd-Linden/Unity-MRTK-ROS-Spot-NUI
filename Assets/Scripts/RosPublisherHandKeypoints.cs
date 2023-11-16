@@ -27,7 +27,7 @@ public class RosPublisherHandKeypoints : MonoBehaviour
     private SpeechConfirmationTooltip speechConfirmationTooltipPrefabInstance = null;
     private string currentDateTime;
     private float collectionCountdown;
-    private float timeBeforeCollect = 4;
+    private float timeBeforeCollect = 3;
     public float collectionDuration = 15;
     private bool isCollectionActive; 
     ROSConnection ros;

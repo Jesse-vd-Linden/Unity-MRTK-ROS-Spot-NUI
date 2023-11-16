@@ -32,10 +32,6 @@ public class RosPublisherDataCollection : MonoBehaviour
         ros = ROSConnection.GetOrCreateInstance();
         ros.RegisterPublisher<Float32MultiArrayMsg>(DataCollectionPublisherTopic);
 
-        var IsEyeTracking = CoreServices.InputSystem.EyeGazeProvider.IsEyeTrackingEnabled;
-        var IsEyeValid = CoreServices.InputSystem.EyeGazeProvider.IsEyeTrackingEnabled;
-        Debug.Log($"IsEyeTracking: {IsEyeTracking}");
-        Debug.Log($"IsEyeValid: {IsEyeValid}");
     }
 
     // Update is called once per frame
@@ -43,14 +39,15 @@ public class RosPublisherDataCollection : MonoBehaviour
     {
         if (Time.time >= nextUpdateTime)
         {
-            Debug.Log("User gaze is currently over game object: " + CoreServices.InputSystem.GazeProvider.GazeTarget);
+            Debug.Log("User gaze is currently over game object: " + CoreServices.InputSystem.EyeGazeProvider.GazeTarget);
                 
-            Vector3 PersonLocation = CoreServices.InputSystem.GazeProvider.GazeOrigin;
-            Vector3 GazeDirectionPerson = CoreServices.InputSystem.GazeProvider.GazeDirection;
-            Vector3 EyeGazePosition = CoreServices.InputSystem.EyeGazeProvider.GazeDirection;
-            // Vector3 ScreenPos = cam.WorldToScreenPoint(GazeDirectionPerson);
+            Vector3 PersonLocation = CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
+            Vector3 GazeDirectionPerson = CoreServices.InputSystem.EyeGazeProvider.GazeDirection;
+            Vector3 ScreenPos = cam.WorldToScreenPoint(GazeDirectionPerson);
+            //Debug.Log($"ScreenPos: {ScreenPos}");
+            //Debug.Log("Pixel width :" + cam.pixelWidth + " Pixel height : " + cam.pixelHeight);
 
-            gazeIndicator.transform.position = EyeGazePosition;
+            gazeIndicator.transform.position = GazeDirectionPerson;
 
             float[] points = new float[6];
 
