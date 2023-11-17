@@ -988,7 +988,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &393992910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3169,7 +3169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1178364766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3183,7 +3183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DataCollectionPublisherTopic: data_collection
-  updateInterval: 0.05
+  updateFrequency: 20
 --- !u!4 &1178364767
 Transform:
   m_ObjectHideFlags: 0
