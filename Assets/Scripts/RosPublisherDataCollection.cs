@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Robotics.ROSTCPConnector;
 using RosMessageTypes.Std;
 using Microsoft.MixedReality.Toolkit;
-using Microsoft.MixedReality.Toolkit.Input;
-using Microsoft.MixedReality.Toolkit.Utilities;
+
+using System.IO;
+using System;
 
 public class RosPublisherDataCollection : MonoBehaviour
 {
@@ -14,41 +13,44 @@ public class RosPublisherDataCollection : MonoBehaviour
 
     [SerializeField]
     private string DataCollectionPublisherTopic = "data_collection";
-
+    private string GazePositionTopic = "eye_gaze_in_pixel";
+    private string GazeHitObjectTopic = "gaze_hit_object";
     public float updateInterval = 0.05f; // Interval in seconds at which the update function should run
     private float nextUpdateTime = 0f;  // Keeps track of when the next update should occur
-
     private GameObject gazeIndicator;
-
     private Camera cam;
+    private string currentDateTime;
 
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
-        gazeIndicator = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        gazeIndicator.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        // gazeIndicator = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        // gazeIndicator.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        currentDateTime = DateTime.Now.ToString("yyyy_MM_dd_HHmm");
 
         ros = ROSConnection.GetOrCreateInstance();
         ros.RegisterPublisher<Float32MultiArrayMsg>(DataCollectionPublisherTopic);
+        ros.RegisterPublisher<Float32MultiArrayMsg>(GazePositionTopic);
+        ros.RegisterPublisher<StringMsg>(GazeHitObjectTopic);
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+        String HitObject = CoreServices.InputSystem.EyeGazeProvider.GazeTarget.ToString();
+        Vector3 PersonLocation = CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
+        Vector3 GazeDirectionPerson = CoreServices.InputSystem.EyeGazeProvider.GazeDirection;
+        Vector3 ScreenPos = cam.WorldToScreenPoint(GazeDirectionPerson);
+        //Debug.Log("User gaze is currently over game object: " + CoreServices.InputSystem.EyeGazeProvider.GazeTarget);
+        //Debug.Log($"ScreenPos: {ScreenPos}");
+        //Debug.Log("Pixel width :" + cam.pixelWidth + " Pixel height : " + cam.pixelHeight);
+        // gazeIndicator.transform.position = GazeDirectionPerson;
+
         if (Time.time >= nextUpdateTime)
         {
-            Debug.Log("User gaze is currently over game object: " + CoreServices.InputSystem.EyeGazeProvider.GazeTarget);
-                
-            Vector3 PersonLocation = CoreServices.InputSystem.EyeGazeProvider.GazeOrigin;
-            Vector3 GazeDirectionPerson = CoreServices.InputSystem.EyeGazeProvider.GazeDirection;
-            Vector3 ScreenPos = cam.WorldToScreenPoint(GazeDirectionPerson);
-            //Debug.Log($"ScreenPos: {ScreenPos}");
-            //Debug.Log("Pixel width :" + cam.pixelWidth + " Pixel height : " + cam.pixelHeight);
-
-            gazeIndicator.transform.position = GazeDirectionPerson;
-
             float[] points = new float[6];
 
             points[0] = PersonLocation.z;
@@ -68,5 +70,35 @@ public class RosPublisherDataCollection : MonoBehaviour
             // Set the time for the next update
             nextUpdateTime = Time.time + updateInterval;
         }
+
+        float[] pixelPoints = new float[3];
+        pixelPoints[0] = ScreenPos.x;
+        pixelPoints[1] = ScreenPos.y;
+        pixelPoints[2] = ScreenPos.z;
+
+        Float32MultiArrayMsg ScreenPosMessage = new Float32MultiArrayMsg()
+        {
+            data = pixelPoints
+        };
+
+        StringMsg HitObjectMessage = new StringMsg()
+        {
+            data = HitObject
+        };
+
+        ros.Publish(GazePositionTopic, ScreenPosMessage);
+        ros.Publish(GazeHitObjectTopic, HitObjectMessage);
+    }
+
+    private void WriteJointsToFile(Vector3 ScreenPos)
+    {
+        string filename = currentDateTime + ".txt";
+        string path = Path.Combine(Application.persistentDataPath, filename);
+        using (StreamWriter writer = new StreamWriter(path, true))
+        {
+            string jointData = string.Join(",", ScreenPos);
+            writer.WriteLine(jointData);
+        }
+        Debug.Log($"Hand joints saved to: {path}");
     }
 }

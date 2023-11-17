@@ -48,18 +48,21 @@ public class ButtonInteraction : MonoBehaviour
 
     public void ToggleVoice()
     {
-    GameObject SpeechInstructions = Canvas.transform.Find("SpeechInstructions").gameObject;
-
+        GameObject SpeechInstructions = Canvas.transform.Find("SpeechInstructions").gameObject;
+        VoiceSwitch = Canvas.transform.Find("VoiceSwitch").gameObject;
+        Interactable myInteractable = VoiceSwitch.GetComponent<Interactable>();
         if (!VoiceCommand.activeSelf)
         {
             SpeechInstructions.SetActive(true);
             VoiceCommand.SetActive(true);
+            myInteractable.IsToggled = true;
             Debug.Log("Voice on!");
         }
         else
         {
             SpeechInstructions.SetActive(false);
             VoiceCommand.SetActive(false);
+            myInteractable.IsToggled = false;
             Debug.Log("Voice off!");
         }
     }
@@ -67,10 +70,13 @@ public class ButtonInteraction : MonoBehaviour
     public void ToggleGesture()
     {
         GameObject GestureInstructions = Canvas.transform.Find("GestureInstructions").gameObject;
+        GestureSwitch = Canvas.transform.Find("GestureSwitch").gameObject;
+        Interactable myInteractable = GestureSwitch.GetComponent<Interactable>();
         if (!GestureCommand.activeSelf)
         {
             GestureInstructions.SetActive(true);
             GestureCommand.SetActive(true);
+            myInteractable.IsToggled = true;
             GestureCommand.GetComponent<RosPublisherHandKeypoints>().enabled = true;
             Debug.Log("Gesture on!");
         }
@@ -79,6 +85,7 @@ public class ButtonInteraction : MonoBehaviour
             GestureCommand.GetComponent<RosPublisherHandKeypoints>().enabled = false;
             GestureCommand.SetActive(false);
             GestureInstructions.SetActive(false);
+            myInteractable.IsToggled = false;
             Debug.Log("Gesture off!");
         }
     }
@@ -102,7 +109,7 @@ public class ButtonInteraction : MonoBehaviour
 
     public void ToggleTablet()
     {
-        if (VoiceCommand.activeSelf)
+        if (GestureCommand.activeSelf)
         {
             ToggleGesture();
         }
@@ -110,14 +117,6 @@ public class ButtonInteraction : MonoBehaviour
         {
             ToggleVoice();
         }
-        VoiceSwitch = Canvas.transform.Find("VoiceSwitch").gameObject;
-        Interactable myInteractable = VoiceSwitch.GetComponent<Interactable>();
-        myInteractable.IsToggled = false;
-        GestureSwitch = Canvas.transform.Find("GestureSwitch").gameObject;
-        myInteractable = GestureSwitch.GetComponent<Interactable>();
-        myInteractable.IsToggled = false;
-        // VoiceCommand.SetActive(false);
-        // GestureCommand.SetActive(false);
         Debug.Log("Tablet on!");
     }
     public void ToggleTraining()

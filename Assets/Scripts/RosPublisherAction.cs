@@ -22,5 +22,6 @@ public class RosPublisherAction : MonoBehaviour
     {
         StringMsg action = new StringMsg(actionString);
         ros.Publish(topicName, action);
+        Debug.Log("message send");
     }
 }                                       

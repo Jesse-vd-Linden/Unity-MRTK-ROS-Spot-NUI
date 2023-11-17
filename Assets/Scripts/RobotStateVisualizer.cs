@@ -31,8 +31,8 @@ public class RobotStateVisualizer : MonoBehaviour
     // Coroutine for waiting and then playing the sound
     IEnumerator WaitAndPlaySound()
     {
-        // Wait for 2 seconds
-        yield return new WaitForSeconds(2f);
+        // Wait for 3 seconds
+        yield return new WaitForSeconds(3f);
 
         // Play the sound
         audioSource.Play();

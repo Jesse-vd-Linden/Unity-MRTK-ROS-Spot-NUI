@@ -108,13 +108,6 @@ MonoBehaviour:
       description: None
       axisConstraint: 0
   - localizationKey: 
-    keyword: Gaze Control
-    keyCode: 0
-    action:
-      id: 0
-      description: None
-      axisConstraint: 0
-  - localizationKey: 
     keyword: Arm Trajectory
     keyCode: 0
     action:
@@ -193,6 +186,20 @@ MonoBehaviour:
       axisConstraint: 0
   - localizationKey: 
     keyword: Calibrate HoloLens
+    keyCode: 0
+    action:
+      id: 0
+      description: None
+      axisConstraint: 0
+  - localizationKey: 
+    keyword: Debug
+    keyCode: 0
+    action:
+      id: 0
+      description: None
+      axisConstraint: 0
+  - localizationKey: 
+    keyword: Gaze Control
     keyCode: 0
     action:
       id: 0
