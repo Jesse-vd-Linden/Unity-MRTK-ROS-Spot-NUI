@@ -15,7 +15,8 @@ public class RosPublisherDataCollection : MonoBehaviour
     private string DataCollectionPublisherTopic = "data_collection";
     private string GazePositionTopic = "eye_gaze_in_pixel";
     private string GazeHitObjectTopic = "gaze_hit_object";
-    public float updateInterval = 0.05f; // Interval in seconds at which the update function should run
+    public int updateFrequency = 20; // Interval in seconds at which the update function should run
+    float updateInterval;
     private float nextUpdateTime = 0f;  // Keeps track of when the next update should occur
     private GameObject gazeIndicator;
     private Camera cam;
@@ -24,6 +25,7 @@ public class RosPublisherDataCollection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        updateInterval = (1 / updateFrequency); // Interval in seconds at which the update function should run
         cam = Camera.main;
         // gazeIndicator = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         // gazeIndicator.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -49,9 +51,14 @@ public class RosPublisherDataCollection : MonoBehaviour
         //Debug.Log("Pixel width :" + cam.pixelWidth + " Pixel height : " + cam.pixelHeight);
         // gazeIndicator.transform.position = GazeDirectionPerson;
 
+        
+
         if (Time.time >= nextUpdateTime)
         {
-            float[] points = new float[6];
+            Vector3 CameraPosition = Camera.main.transform.position;
+            Quaternion CameraOrientation = Camera.main.transform.rotation;
+
+            float[] points = new float[16];
 
             points[0] = PersonLocation.z;
             points[1] = -1* PersonLocation.x;
@@ -59,6 +66,16 @@ public class RosPublisherDataCollection : MonoBehaviour
             points[3] = GazeDirectionPerson.z;
             points[4] = -1 * GazeDirectionPerson.x;
             points[5] = GazeDirectionPerson.y;
+            points[6] = ScreenPos.z;
+            points[7] = -1 * ScreenPos.x;
+            points[8] = ScreenPos.y;
+            points[9] = CameraPosition.z;
+            points[10] = -1 * CameraPosition.x;
+            points[11] = CameraPosition.y;
+            points[12] = CameraOrientation.w;
+            points[13] = CameraOrientation.x;
+            points[14] = CameraOrientation.y;
+            points[15] = CameraOrientation.z;
 
             Float32MultiArrayMsg message = new Float32MultiArrayMsg()
             {

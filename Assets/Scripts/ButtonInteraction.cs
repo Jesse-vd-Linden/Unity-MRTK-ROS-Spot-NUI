@@ -18,16 +18,22 @@ public class ButtonInteraction : MonoBehaviour
     public GameObject DataCollection;
     public GameObject VoiceCommand;
     public GameObject GestureCommand;
+
+    private GameObject Questionaire;
+    private GameObject StartPanel;
     private GameObject VoiceSwitch;
+    private GameObject TabletSwitch;
     private GameObject GestureSwitch;
 
     // Start is called before the first frame update
     void Start()
     {
+        Canvas = this.gameObject;
+        Questionaire = Canvas.transform.Find("Questionaire").gameObject;
+        StartPanel = Canvas.transform.Find("StartPanel").gameObject;
         VoiceCommand.SetActive(false);
         GestureCommand.SetActive(false);
         DataCollection.SetActive(false);
-        Canvas = this.gameObject;
     }
 
     // Update is called once per frame
@@ -56,6 +62,8 @@ public class ButtonInteraction : MonoBehaviour
             SpeechInstructions.SetActive(true);
             VoiceCommand.SetActive(true);
             myInteractable.IsToggled = true;
+
+            Questionaire.SetActive(false);
             Debug.Log("Voice on!");
         }
         else
@@ -63,6 +71,8 @@ public class ButtonInteraction : MonoBehaviour
             SpeechInstructions.SetActive(false);
             VoiceCommand.SetActive(false);
             myInteractable.IsToggled = false;
+
+            Questionaire.SetActive(true);
             Debug.Log("Voice off!");
         }
     }
@@ -78,6 +88,8 @@ public class ButtonInteraction : MonoBehaviour
             GestureCommand.SetActive(true);
             myInteractable.IsToggled = true;
             GestureCommand.GetComponent<RosPublisherHandKeypoints>().enabled = true;
+
+            Questionaire.SetActive(false);
             Debug.Log("Gesture on!");
         }
         else
@@ -86,6 +98,8 @@ public class ButtonInteraction : MonoBehaviour
             GestureCommand.SetActive(false);
             GestureInstructions.SetActive(false);
             myInteractable.IsToggled = false;
+
+            Questionaire.SetActive(true);
             Debug.Log("Gesture off!");
         }
     }
@@ -97,6 +111,7 @@ public class ButtonInteraction : MonoBehaviour
         {
             InfoPanel.SetActive(true);
             VoiceDebug.SetActive(true);
+            Questionaire.SetActive(false);
             Debug.Log("Debug on!");
         }
         else
@@ -109,6 +124,8 @@ public class ButtonInteraction : MonoBehaviour
 
     public void ToggleTablet()
     {
+        TabletSwitch = Canvas.transform.Find("TabletSwitch").gameObject;
+        Interactable myInteractable = TabletSwitch.GetComponent<Interactable>();
         if (GestureCommand.activeSelf)
         {
             ToggleGesture();
@@ -117,33 +134,25 @@ public class ButtonInteraction : MonoBehaviour
         {
             ToggleVoice();
         }
-        Debug.Log("Tablet on!");
-    }
-    public void ToggleTraining()
-    {
-        if (VoiceCommand.activeSelf)
+        if (myInteractable.IsToggled == false)
         {
-            ToggleGesture();
+            Questionaire.SetActive(true);
         }
-        if (VoiceCommand.activeSelf)
+        else
         {
-            ToggleVoice();
+            Questionaire.SetActive(false);
         }
-        VoiceSwitch = Canvas.transform.Find("VoiceSwitch").gameObject;
-        Interactable myInteractable = VoiceSwitch.GetComponent<Interactable>();
-        myInteractable.IsToggled = false;
-        GestureSwitch = Canvas.transform.Find("GestureSwitch").gameObject;
-        myInteractable = GestureSwitch.GetComponent<Interactable>();
-        myInteractable.IsToggled = false;
-        // VoiceCommand.SetActive(false);
-        // GestureCommand.SetActive(false);
         Debug.Log("Tablet on!");
     }
 
     // public async void StartButton()
     public void StartButton()
     {
-        DataCollection.SetActive(true);
+        if (!DataCollection.activeSelf)
+        {
+            DataCollection.SetActive(true);
+        }
+        StartPanel.SetActive(false);
         Debug.Log("Data collection on!");
         //try
         //{
