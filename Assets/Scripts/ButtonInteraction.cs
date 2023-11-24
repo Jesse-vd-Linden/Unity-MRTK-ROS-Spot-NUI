@@ -3,7 +3,9 @@ using TMPro;
 using Microsoft.MixedReality.Toolkit.UI;
 using System;
 using System.Threading.Tasks;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
+using System.Collections;
+using System.Collections.Generic;
+
 
 #if ENABLE_WINMD_SUPPORT && UNITY_WSA
 using Windows.Media.Capture;
@@ -19,18 +21,27 @@ public class ButtonInteraction : MonoBehaviour
     public GameObject VoiceCommand;
     public GameObject GestureCommand;
 
-    private GameObject Questionaire;
+    private GameObject StartButton;
     private GameObject StartPanel;
     private GameObject VoiceSwitch;
     private GameObject TabletSwitch;
     private GameObject GestureSwitch;
+    private GameObject Notification;
+
+    //private bool IsVoiceExplained = false;
+    //private bool IsGestureExplained = false;
+    //private bool IsTabletExplained = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        Canvas = this.gameObject;
-        Questionaire = Canvas.transform.Find("Questionaire").gameObject;
+        Canvas = gameObject;
+        StartButton = Canvas.transform.Find("Start").gameObject;
         StartPanel = Canvas.transform.Find("StartPanel").gameObject;
+        VoiceSwitch = Canvas.transform.Find("VoiceSwitch").gameObject;
+        GestureSwitch = Canvas.transform.Find("GestureSwitch").gameObject;
+        TabletSwitch = Canvas.transform.Find("TabletSwitch").gameObject;
+        Notification = Canvas.transform.Find("Notification").gameObject;
         VoiceCommand.SetActive(false);
         GestureCommand.SetActive(false);
         DataCollection.SetActive(false);
@@ -42,37 +53,24 @@ public class ButtonInteraction : MonoBehaviour
         
     }
 
-    public void ShutDown()
-    {
-        LoggingPanel.text = "Click on Button";
-        Debug.Log("Exit Pressed!");
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-        #endif
-        Application.Quit();
-    }
-
     public void ToggleVoice()
     {
         GameObject SpeechInstructions = Canvas.transform.Find("SpeechInstructions").gameObject;
-        VoiceSwitch = Canvas.transform.Find("VoiceSwitch").gameObject;
-        Interactable myInteractable = VoiceSwitch.GetComponent<Interactable>();
+        Interactable voiceInteractable = VoiceSwitch.GetComponent<Interactable>();
         if (!VoiceCommand.activeSelf)
         {
             SpeechInstructions.SetActive(true);
             VoiceCommand.SetActive(true);
-            myInteractable.IsToggled = true;
+            voiceInteractable.IsToggled = true;
 
-            Questionaire.SetActive(false);
             Debug.Log("Voice on!");
         }
         else
         {
             SpeechInstructions.SetActive(false);
             VoiceCommand.SetActive(false);
-            myInteractable.IsToggled = false;
+            voiceInteractable.IsToggled = false;
 
-            Questionaire.SetActive(true);
             Debug.Log("Voice off!");
         }
     }
@@ -80,16 +78,14 @@ public class ButtonInteraction : MonoBehaviour
     public void ToggleGesture()
     {
         GameObject GestureInstructions = Canvas.transform.Find("GestureInstructions").gameObject;
-        GestureSwitch = Canvas.transform.Find("GestureSwitch").gameObject;
-        Interactable myInteractable = GestureSwitch.GetComponent<Interactable>();
+        Interactable gestureInteractable = GestureSwitch.GetComponent<Interactable>();
         if (!GestureCommand.activeSelf)
         {
             GestureInstructions.SetActive(true);
             GestureCommand.SetActive(true);
-            myInteractable.IsToggled = true;
+            gestureInteractable.IsToggled = true;
             GestureCommand.GetComponent<RosPublisherHandKeypoints>().enabled = true;
 
-            Questionaire.SetActive(false);
             Debug.Log("Gesture on!");
         }
         else
@@ -97,9 +93,8 @@ public class ButtonInteraction : MonoBehaviour
             GestureCommand.GetComponent<RosPublisherHandKeypoints>().enabled = false;
             GestureCommand.SetActive(false);
             GestureInstructions.SetActive(false);
-            myInteractable.IsToggled = false;
+            gestureInteractable.IsToggled = false;
 
-            Questionaire.SetActive(true);
             Debug.Log("Gesture off!");
         }
     }
@@ -111,7 +106,6 @@ public class ButtonInteraction : MonoBehaviour
         {
             InfoPanel.SetActive(true);
             VoiceDebug.SetActive(true);
-            Questionaire.SetActive(false);
             Debug.Log("Debug on!");
         }
         else
@@ -124,8 +118,7 @@ public class ButtonInteraction : MonoBehaviour
 
     public void ToggleTablet()
     {
-        TabletSwitch = Canvas.transform.Find("TabletSwitch").gameObject;
-        Interactable myInteractable = TabletSwitch.GetComponent<Interactable>();
+        Interactable tabletInteractable = TabletSwitch.GetComponent<Interactable>();
         if (GestureCommand.activeSelf)
         {
             ToggleGesture();
@@ -134,20 +127,13 @@ public class ButtonInteraction : MonoBehaviour
         {
             ToggleVoice();
         }
-        if (myInteractable.IsToggled == false)
-        {
-            Questionaire.SetActive(true);
-        }
-        else
-        {
-            Questionaire.SetActive(false);
-        }
         Debug.Log("Tablet on!");
     }
 
     // public async void StartButton()
-    public void StartButton()
+    public void OnStartButton()
     {
+        StartCoroutine(HideAndShow(2.0f));
         if (!DataCollection.activeSelf)
         {
             DataCollection.SetActive(true);
@@ -165,6 +151,25 @@ public class ButtonInteraction : MonoBehaviour
         //    Debug.LogException(ex);
         //    LoggingPanel.text = ex.ToString();
         //}
+    }
+
+
+    IEnumerator HideAndShow(float delay)
+    {
+        StartButton.SetActive(false);
+        yield return new WaitForSeconds(delay);
+        VoiceSwitch.SetActive(true);
+        GestureSwitch.SetActive(true);
+        TabletSwitch.SetActive(true);
+    }
+    public void ShutDown()
+    {
+        LoggingPanel.text = "Click on Button";
+        Debug.Log("Exit Pressed!");
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
     }
 
     public async Task VideoRecordingAsync()
@@ -190,11 +195,6 @@ public class ButtonInteraction : MonoBehaviour
         await videoFile.CopyAsync(destinationFolder, "VideoCapture.mp4", NameCollisionOption.ReplaceExisting);
         await videoFile.DeleteAsync();
 #endif
-    }
-
-    public void Reset()
-    {
-        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
 }
