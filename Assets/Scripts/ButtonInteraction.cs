@@ -26,7 +26,6 @@ public class ButtonInteraction : MonoBehaviour
     private GameObject VoiceSwitch;
     private GameObject TabletSwitch;
     private GameObject GestureSwitch;
-    private GameObject Notification;
 
     //private bool IsVoiceExplained = false;
     //private bool IsGestureExplained = false;
@@ -41,7 +40,6 @@ public class ButtonInteraction : MonoBehaviour
         VoiceSwitch = Canvas.transform.Find("VoiceSwitch").gameObject;
         GestureSwitch = Canvas.transform.Find("GestureSwitch").gameObject;
         TabletSwitch = Canvas.transform.Find("TabletSwitch").gameObject;
-        Notification = Canvas.transform.Find("Notification").gameObject;
         VoiceCommand.SetActive(false);
         GestureCommand.SetActive(false);
         DataCollection.SetActive(false);
@@ -133,7 +131,7 @@ public class ButtonInteraction : MonoBehaviour
     // public async void StartButton()
     public void OnStartButton()
     {
-        StartCoroutine(HideAndShow(2.0f));
+        StartCoroutine(HideAndShow(5.0f));
         if (!DataCollection.activeSelf)
         {
             DataCollection.SetActive(true);
