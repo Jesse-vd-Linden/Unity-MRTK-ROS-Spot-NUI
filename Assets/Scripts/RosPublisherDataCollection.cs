@@ -4,6 +4,7 @@ using RosMessageTypes.Std;
 using Microsoft.MixedReality.Toolkit;
 using System.IO;
 using System;
+using TMPro;
 
 public class RosPublisherDataCollection : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class RosPublisherDataCollection : MonoBehaviour
     private ExtendedEyeGazeDataProvider.GazeReading gazeReading;
 
     private DateTime timestamp;
+    public TMP_Text LoggingPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +38,9 @@ public class RosPublisherDataCollection : MonoBehaviour
         ros.RegisterPublisher<Float32MultiArrayMsg>(DataCollectionPublisherTopic);
         ros.RegisterPublisher<Float32MultiArrayMsg>(CompressedDataTopic);
         ros.RegisterPublisher<StringMsg>(GazeHitObjectTopic);
+
+        //Debug.Log($"Camera Pixel Sizes: {cam.pixelWidth}, {cam.pixelHeight}");
+        //Debug.Log($"Screen Pixel Sizes: {Screen.width}, {Screen.height}");
     }
 
     // Update is called once per frame
@@ -57,6 +62,9 @@ public class RosPublisherDataCollection : MonoBehaviour
         Vector3 GazeDirection = CoreServices.InputSystem.EyeGazeProvider.GazeDirection;
         Vector3 ScreenGazePos = cam.WorldToScreenPoint(GazeDirection);
         string GazeHitObject = CoreServices.InputSystem.EyeGazeProvider.GazeTarget.name;
+
+        //Debug.Log($"ScreenGazePos: {ScreenGazePos}");
+        LoggingPanel.text = $"Camera ScreenGazePos: {ScreenGazePos}";
 
         // single eye gaze
         timestamp = DateTime.Now;

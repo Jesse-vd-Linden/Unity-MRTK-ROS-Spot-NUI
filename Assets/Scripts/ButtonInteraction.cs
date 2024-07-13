@@ -24,7 +24,7 @@ public class ButtonInteraction : MonoBehaviour
     private GameObject StartButton;
     private GameObject StartPanel;
     private GameObject VoiceSwitch;
-    private GameObject TabletSwitch;
+    //private GameObject TabletSwitch;
     private GameObject GestureSwitch;
 
     //private bool IsVoiceExplained = false;
@@ -39,7 +39,7 @@ public class ButtonInteraction : MonoBehaviour
         StartPanel = Canvas.transform.Find("StartPanel").gameObject;
         VoiceSwitch = Canvas.transform.Find("VoiceSwitch").gameObject;
         GestureSwitch = Canvas.transform.Find("GestureSwitch").gameObject;
-        TabletSwitch = Canvas.transform.Find("TabletSwitch").gameObject;
+        //TabletSwitch = Canvas.transform.Find("TabletSwitch").gameObject;
         VoiceCommand.SetActive(false);
         GestureCommand.SetActive(false);
         DataCollection.SetActive(false);
@@ -114,19 +114,19 @@ public class ButtonInteraction : MonoBehaviour
         }
     }
 
-    public void ToggleTablet()
-    {
-        Interactable tabletInteractable = TabletSwitch.GetComponent<Interactable>();
-        if (GestureCommand.activeSelf)
-        {
-            ToggleGesture();
-        }
-        if (VoiceCommand.activeSelf)
-        {
-            ToggleVoice();
-        }
-        Debug.Log("Tablet on!");
-    }
+    //public void ToggleTablet()
+    //{
+    //    Interactable tabletInteractable = TabletSwitch.GetComponent<Interactable>();
+    //    if (GestureCommand.activeSelf)
+    //    {
+    //        ToggleGesture();
+    //    }
+    //    if (VoiceCommand.activeSelf)
+    //    {
+    //        ToggleVoice();
+    //    }
+    //    Debug.Log("Tablet on!");
+    //}
 
     // public async void StartButton()
     public void OnStartButton()
@@ -158,7 +158,7 @@ public class ButtonInteraction : MonoBehaviour
         yield return new WaitForSeconds(delay);
         VoiceSwitch.SetActive(true);
         GestureSwitch.SetActive(true);
-        TabletSwitch.SetActive(true);
+        //TabletSwitch.SetActive(true);
     }
     public void ShutDown()
     {

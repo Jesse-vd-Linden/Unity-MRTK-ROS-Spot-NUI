@@ -73,6 +73,22 @@ public class RosPublisherHandKeypoints : MonoBehaviour
             && !RecognizedGesture.Equals("NoGesture")
             )
         {
+            switch (RecognizedGesture)
+            {
+                case "walk_to_forward":
+                    RecognizedGesture = "Walk Forward";
+                    break;
+                case "walk_to_backward":
+                    RecognizedGesture = "Walk Backward";
+                    break;
+                case "turn_to_left":
+                    RecognizedGesture = "Rotate Left";
+                    break;
+                case "turn_to_right":
+                    RecognizedGesture = "Rotate Right";
+                    break;
+
+            }
             speechConfirmationTooltipPrefabInstance = Instantiate(SpeechTipPrefab);
             speechConfirmationTooltipPrefabInstance.SetText(RecognizedGesture);
             speechConfirmationTooltipPrefabInstance.TriggerConfirmedAnimation();
